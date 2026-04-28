@@ -105,7 +105,7 @@ public:
 // MAIN
 // ============================================================
 int main() {
-    // TODO 17-21: demo code
+
     cout << "=== Part 1: Point Demo ===" << endl;
     Point p1(3.5, 4.2);
     Point p2(0, 0);
@@ -115,19 +115,45 @@ int main() {
     cout << endl;
     cout << "Point p1 x-coordinate: " << p1.getX() << endl;
     cout << "Point p1 y-coordinate: " << p1.getY() << endl;
+    cout << endl;
     
-    cout << "\n=== Part 2: Rectangle Demo ===" << endl;
+    cout << "=== Part 2: Rectangle Demo ===" << endl;
     Rectangle rect1(0, 5, 4, 0);
-
+    Rectangle rect2(1, 3, 5, 1);
+    Rectangle rect3(0, 6, 3, 2);
+    
     cout << "Rectangle 1: ";
     rect1.display();
     cout << endl;
     cout << "Width: " << rect1.getWidth() << endl;
     cout << "Height: " << rect1.getHeight() << endl;
     cout << "Area: " << rect1.getArea() << endl;
+    
+    cout << "\nRectangle 2: ";
+    rect2.display();
     cout << endl;
-
-    cout << "\n=== part 3: Const Member Functions Demo ===" << endl;
+    cout << "Width: " << rect2.getWidth() << endl;
+    cout << "Height: " << rect2.getHeight() << endl;
+    cout << "Area: " << rect2.getArea() << endl;
+    
+    cout << "\nRectangle 3: ";
+    rect3.display();
+    cout << endl;
+    cout << "Width: " << rect3.getWidth() << endl;
+    cout << "Height: " << rect3.getHeight() << endl;
+    cout << "Area: " << rect3.getArea() << endl;
+    cout << endl;
+    
+    cout << "=== Part 3: Friend Function Demo ===" << endl;
+    cout << "Rect1 and Rect2 same size? " << boolalpha 
+         << isSameSize(rect1, rect2) << endl;
+    cout << "Rect1 and Rect3 same size? " 
+         << isSameSize(rect1, rect3) << endl;
+    cout << "Rect2 and Rect3 same size? " 
+         << isSameSize(rect2, rect3) << endl;
+    cout << endl;
+    
+    cout << "=== Part 4: Const Member Functions Demo ===" << endl;
     ConstDemo cd1(5);
     const ConstDemo cd2(10);
     
