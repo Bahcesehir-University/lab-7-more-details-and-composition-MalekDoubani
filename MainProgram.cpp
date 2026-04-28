@@ -7,7 +7,10 @@
 
 #include <iostream>
 #include <string>
+#include <cmath>  // For fabs() if needed, but we'll use absolute value
+
 using namespace std;
+
 // ============================================================
 // CLASS DEFINITIONS
 // ============================================================
@@ -27,7 +30,7 @@ public:
     double getY() const { return y; }
 
     // TODO 4: const display()
-    void display() const { std::cout << "(" << x << ", " << y << ")"; }
+    void display() const { cout << "(" << x << ", " << y << ")"; }
 
     // TODO 5: declare Rectangle as friend class
     friend class Rectangle;
@@ -43,14 +46,18 @@ public:
     Rectangle(double x1, double y1, double x2, double y2)
         : topLeft(x1, y1), bottomRight(x2, y2) {}
 
-    // TODO 7: const getWidth()
+    // TODO 7: const getWidth() - ALWAYS return positive width
     double getWidth() const { 
-        return bottomRight.getX() - topLeft.getX(); 
+        // Use absolute value to handle reversed coordinates
+        double width = bottomRight.getX() - topLeft.getX();
+        return (width >= 0) ? width : -width;
     }
 
-    // TODO 8: const getHeight()
+    // TODO 8: const getHeight() - ALWAYS return positive height
     double getHeight() const { 
-        return bottomRight.getY() - topLeft.getY(); 
+        // Use absolute value to handle reversed coordinates
+        double height = bottomRight.getY() - topLeft.getY();
+        return (height >= 0) ? height : -height;
     }
 
     // TODO 9: const getArea()
@@ -60,11 +67,11 @@ public:
 
     // TODO 10: const display()
     void display() const {
-        std::cout << "Rectangle: topLeft=";
+        cout << "Rectangle: topLeft=";
         topLeft.display();
-        std::cout << ", bottomRight=";
+        cout << ", bottomRight=";
         bottomRight.display();
-        std::cout << ", area=" << getArea();
+        cout << ", area=" << getArea();
     }
 
     // TODO 11: declare isSameSize as friend function
@@ -72,10 +79,15 @@ public:
 };
 
 
-// TODO 12: implement isSameSize
+// TODO 12: implement isSameSize - compare areas, not dimensions
 bool isSameSize(const Rectangle& r1, const Rectangle& r2) {
-    return (r1.getWidth() == r2.getWidth()) && 
-           (r1.getHeight() == r2.getHeight());
+    // Compare areas (which already use absolute values)
+    // Use a small epsilon for floating point comparison
+    double area1 = r1.getArea();
+    double area2 = r2.getArea();
+    
+    // Check if areas are approximately equal (within 0.0001 tolerance)
+    return (area1 - area2 < 0.0001) && (area2 - area1 < 0.0001);
 }
 
 
@@ -105,7 +117,7 @@ public:
 // MAIN
 // ============================================================
 int main() {
-
+    // Point Demo
     cout << "=== Part 1: Point Demo ===" << endl;
     Point p1(3.5, 4.2);
     Point p2(0, 0);
@@ -117,10 +129,12 @@ int main() {
     cout << "Point p1 y-coordinate: " << p1.getY() << endl;
     cout << endl;
     
+    // (Group B)
     cout << "=== Part 2: Rectangle Demo ===" << endl;
     Rectangle rect1(0, 5, 4, 0);
     Rectangle rect2(1, 3, 5, 1);
     Rectangle rect3(0, 6, 3, 2);
+    Rectangle rect4(4, 0, 0, 3);
     
     cout << "Rectangle 1: ";
     rect1.display();
@@ -142,8 +156,15 @@ int main() {
     cout << "Width: " << rect3.getWidth() << endl;
     cout << "Height: " << rect3.getHeight() << endl;
     cout << "Area: " << rect3.getArea() << endl;
+    
+    cout << "\nRectangle 4 (reversed coordinates): ";
+    rect4.display();
+    cout << endl;
+    cout << "Width: " << rect4.getWidth() << " (should be positive 4)" << endl;
+    cout << "Height: " << rect4.getHeight() << " (should be positive 3)" << endl;
     cout << endl;
     
+    // (Group C)
     cout << "=== Part 3: Friend Function Demo ===" << endl;
     cout << "Rect1 and Rect2 same size? " << boolalpha 
          << isSameSize(rect1, rect2) << endl;
@@ -151,8 +172,15 @@ int main() {
          << isSameSize(rect1, rect3) << endl;
     cout << "Rect2 and Rect3 same size? " 
          << isSameSize(rect2, rect3) << endl;
+    
+    // Test zero-area rectangles
+    Rectangle zeroRect1(0, 0, 0, 5);  // Width = 0
+    Rectangle zeroRect2(2, 2, 2, 7);  // Width = 0
+    cout << "\nZero-area rectangles same size? " 
+         << isSameSize(zeroRect1, zeroRect2) << " (should be true)" << endl;
     cout << endl;
     
+    // (Group D)
     cout << "=== Part 4: Const Member Functions Demo ===" << endl;
     ConstDemo cd1(5);
     const ConstDemo cd2(10);
